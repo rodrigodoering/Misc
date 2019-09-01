@@ -1,6 +1,7 @@
 import requests
 import pandas as pd
 
+
 def make_request(url):
     '''
     Faz o request
@@ -13,7 +14,7 @@ def make_request(url):
     }
     return client.get(url, headers=headers).json()
  
- 
+    
  def get_resposta(url):
     '''
     Recebe o caminho do questionário em específico
