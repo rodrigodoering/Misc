@@ -1,7 +1,6 @@
 import requests
 import pandas as pd
 
-
 def make_request(url):
     '''
     Faz o request
@@ -36,7 +35,8 @@ def make_request(url):
     # retorna o dicionário
     return respostas_final 
     
-    def traduzir(lista_respostas, id_resposta):
+    
+def traduzir(lista_respostas, id_resposta):
     '''
     Recebe a lista de respostas e as opções das respostas com suas respectivas representações no formulário 
     Retorna uma lista contendo a representação de formulário da resposta
