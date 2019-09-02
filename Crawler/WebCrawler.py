@@ -2,6 +2,7 @@ from urllib.request import urlopen
 import pandas as pd
 from bs4 import BeautifulSoup
 
+
 class WebMining:
 
 	def __init__(self, to_craw):
@@ -67,7 +68,6 @@ class WebMining:
 			if estado == 'Distrito Federal ':
 				self.ordem_estados_seguranca[i] = 'Distrito Federal (Brasil)'
 
-
 		# Esse bloco extrai as informações do índice GINI
 		# A indexação é feita de acordo com a ordem em que os estados e seus respectivos valores estão dispostos no site
 		# Por isso também é gerado uma lista contendo a ordem exata dos estados para poder gerar o dataset final
@@ -78,7 +78,7 @@ class WebMining:
 		self.ordem_estados_gini = [termo.find('a').attrs['title'] for termo in filtro]
 
 
-	def Construir_Dataframe(self):
+	def ConstruirDataframe(self):
 		# Esse bloco remove qualquer espaço residual que tenha ficado do processo de Scrap e padroniza todas as strings
 		estados = [estado.replace(' ','') for estado in self.estados]
 		ordem_estados_pobreza = [estado.replace(' ','') for estado in self.ordem_estados_pobreza]
@@ -95,13 +95,13 @@ class WebMining:
 			vetor = [matriz_valores[i][matriz_estados[i].index(estado)] for i in range(4)]
 			matriz_vetores.append(vetor)
 
-    # Construção do DataFrame que será utilizado na modelagem
+    	# Construção do DataFrame que será utilizado na modelagem
 		self.indicadores = ['TaxaHomicidio','IndicePobreza','InvestimentoSeguranca','GINI']
 		self.df = pd.DataFrame(matriz_vetores, columns = self.indicadores, index = estados)
 
 
 	def Normalizar(self):
-		# Inverte os valores de InvestimentoSeguranca, para que todos os indicadores sigam a ordem lógica de quanto maior, pior
+		# Inverte os valores de InvestimentoSeguranca, para que todos os indicadores sigam a ordem de quanto maior, pior
 		self.df.InvestimentoSeguranca = [(valor*-1) for valor in self.df.InvestimentoSeguranca]
 
 		# Normaliza todos os valores com a fórmula MinMax Scale
@@ -111,15 +111,15 @@ class WebMining:
 
 
 	def ExecutarCrawler(self, delimitador, normalizar=False):
-    # Executa procedimento
-    # Retorna dataframe
-		if normalizar == False:
-    self.Crawler(delimitador)
-    self.Scraper()
-    self.Construir_Dataframe()
-   
-    if normalizar:
-      # retorna dataframe normalizado
-      return self.Normalizar()
-    else:
+		# Executa as funções como um pipeline
+		self.Crawler(delimitador)
+		self.Scraper()
+		self.ConstruirDataframe()
+		if not normalizar:
 			return self.df
+		else:
+			return self.Normalizar()
+
+
+
+
