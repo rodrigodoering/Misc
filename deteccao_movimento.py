@@ -5,19 +5,18 @@ Created on Thu Jan 18 15:06:46 2018
 @author: Rodrigo Doering Neves
 """
 
-"""
-Importando Bibliotecas
 
-"""
+# Importando Bibliotecas
+
+
 import cv2
 import numpy as np
 import pandas as pd
 from skimage.measure import compare_ssim
 
-"""
-Métodos para detecção de movimentos
 
-"""
+# Métodos para detecção de movimentos
+
  
 class Camera: 
     
