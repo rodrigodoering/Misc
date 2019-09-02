@@ -9,6 +9,7 @@ import PIL
 import os
 from PIL import Image
 
+# Ignorar por enquanto
 #os.chdir('C:\imagens_site')
 #os.chdir('C:\imagens_novo')
 
