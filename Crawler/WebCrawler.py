@@ -1,6 +1,8 @@
+
 from urllib.request import urlopen
 import pandas as pd
 from bs4 import BeautifulSoup
+from sklearn.preprocessing import StandardScaler
 
 
 class WebMining:
@@ -100,26 +102,18 @@ class WebMining:
 		self.df = pd.DataFrame(matriz_vetores, columns = self.indicadores, index = estados)
 
 
-	def Normalizar(self):
+	def Normalizar(self, modo='minmax'):
 		# Inverte os valores de InvestimentoSeguranca, para que todos os indicadores sigam a ordem de quanto maior, pior
 		self.df.InvestimentoSeguranca = [(valor*-1) for valor in self.df.InvestimentoSeguranca]
 
 		# Normaliza todos os valores com a fórmula MinMax Scale
-		for coluna in self.indicadores:
-			self.df[coluna] = [(x - self.df[coluna].min())/(self.df[coluna].max() - self.df[coluna].min()) for x in self.df[coluna]]
-		return self.df
-
-
-	def ExecutarCrawler(self, delimitador, normalizar=False):
-		# Executa as funções como um pipeline
-		self.Crawler(delimitador)
-		self.Scraper()
-		self.ConstruirDataframe()
-		if not normalizar:
-			return self.df
-		else:
-			return self.Normalizar()
-
-
-
-
+        if modo == 'minmax':
+            for coluna in self.indicadores:
+                self.df[coluna] = [(x - self.df[coluna].min())/(self.df[coluna].max() - self.df[coluna].min()) for x in self.df[coluna]]
+        
+        elif modo == 'stdscalar':
+            scaler = StandardScaler()
+            return scaler.fit_transform(self.df)
+        
+        else:
+            return self.df
