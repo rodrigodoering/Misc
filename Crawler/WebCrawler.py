@@ -107,13 +107,13 @@ class WebMining:
 		self.df.InvestimentoSeguranca = [(valor*-1) for valor in self.df.InvestimentoSeguranca]
 
 		# Normaliza todos os valores com a fórmula MinMax Scale
-        if modo == 'minmax':
-            for coluna in self.indicadores:
-                self.df[coluna] = [(x - self.df[coluna].min())/(self.df[coluna].max() - self.df[coluna].min()) for x in self.df[coluna]]
-        
-        elif modo == 'stdscalar':
-            scaler = StandardScaler()
-            return scaler.fit_transform(self.df)
-        
-        else:
-            return self.df
+		if modo == 'minmax':
+		    for coluna in self.indicadores:
+			self.df[coluna] = [(x - self.df[coluna].min())/(self.df[coluna].max() - self.df[coluna].min()) for x in self.df[coluna]]
+
+		elif modo == 'stdscalar':
+		    scaler = StandardScaler()
+		    return scaler.fit_transform(self.df)
+
+		else:
+		    return self.df
